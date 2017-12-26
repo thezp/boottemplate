@@ -3,9 +3,15 @@ spring:
     active: dev
   application:
     name: template
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  http:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
 
 server:
-  port: 9999
   context-path: /thezp
 
 logging:
