@@ -1,4 +1,4 @@
-package com.thezp.annotation;
+package com.thezp.base.annotation;
 
 import java.lang.reflect.Method;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.thezp.annotation;
+package com.thezp.base.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
