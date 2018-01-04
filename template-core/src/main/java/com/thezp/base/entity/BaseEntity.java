@@ -24,6 +24,8 @@ public class BaseEntity implements Serializable {
      */
     private static final Integer DEFAULT_PAGE = 1;
 
+    /**************基本属性开始**************/
+
     /**
      * id
      */
@@ -48,6 +50,10 @@ public class BaseEntity implements Serializable {
      * 是否有效(0->有效 -1->无效)
      */
     private Integer mark;
+
+    /**************基本属性结束**************/
+
+    /**************分页属性开始**************/
 
     /**
      * 页码
@@ -86,5 +92,7 @@ public class BaseEntity implements Serializable {
         paramMap.put("pageBegin", getPageBegin());
         return paramMap;
     }
+
+    /**************分页属性结束**************/
 
 }
