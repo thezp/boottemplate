@@ -28,4 +28,9 @@ public class HelloController {
 
         return userService.selectEntities(null);
     }
+
+    @GetMapping(path = "/voidMethod")
+    public void voidMethod() {
+        System.out.println("hahhah");
+    }
 }
