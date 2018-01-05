@@ -29,6 +29,8 @@ spring:
       - biz
     caffeine:
       spec: maximumSize=500,expireAfterWrite=5s
+  jooq:
+    sql-dialect: MYSQL
 
 
 server:

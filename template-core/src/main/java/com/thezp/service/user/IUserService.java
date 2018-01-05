@@ -8,4 +8,5 @@ import com.thezp.dao.biz.user.entity.UserEntity;
  */
 public interface IUserService extends IBaseService<UserEntity> {
 
+    void getList();
 }

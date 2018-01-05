@@ -23,10 +23,15 @@ public class HelloController {
         return "world";
     }
 
-    @GetMapping(path = "/getList")
-    public List<UserEntity> getList() {
+    @GetMapping(path = "/getUsers")
+    public List<UserEntity> getUsers() {
 
         return userService.selectEntities(null);
+    }
+
+    @GetMapping(path = "/getList")
+    public void getList() {
+        userService.getList();
     }
 
     @GetMapping(path = "/voidMethod")

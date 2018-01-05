@@ -41,10 +41,6 @@
       <artifactId>spring-boot-starter-jooq</artifactId>
       <exclusions>
         <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-jdbc</artifactId>
-        </exclusion>
-        <exclusion>
           <groupId>org.jooq</groupId>
           <artifactId>jooq</artifactId>
         </exclusion>
