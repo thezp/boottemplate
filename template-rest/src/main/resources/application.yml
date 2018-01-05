@@ -12,7 +12,7 @@ spring:
       max-request-size: -1
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     initialSize: 10
     minIdle: 10
     maxActive: 20
@@ -22,6 +22,14 @@ spring:
     testWhileIdle: true
     testOnBorrow: true
     testOnReturn: true
+  cache:
+    type: CAFFEINE
+    cache-names:
+      - common
+      - biz
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=5s
+
 
 server:
   context-path: /thezp

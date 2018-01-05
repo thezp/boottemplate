@@ -6,6 +6,7 @@ import com.thezp.service.user.IUserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Service;
 public class UserService extends BaseService<UserEntity> implements IUserService {
 
     @Override
+    @Cacheable(value = "common", sync = true)
     public List<UserEntity> selectEntities(Map<String, Object> param) {
+        System.out.println("没走cache");
         List<UserEntity> list = new ArrayList<>();
         UserEntity entity = new UserEntity();
         entity.setName("zhangpeng");
