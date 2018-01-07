@@ -17,5 +17,5 @@ public interface IBaseService<T extends BaseEntity> {
      * @param param
      * @return List<T>
      */
-    public List<T> selectEntities(Map<String, Object> param);
+    List<T> selectEntities(Map<String, Object> param);
 }

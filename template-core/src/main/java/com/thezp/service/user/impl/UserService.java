@@ -1,16 +1,14 @@
 package com.thezp.service.user.impl;
 
-import static com.thezp.dao.jooq.Tables.AUTHOR;
-
 import com.thezp.base.service.impl.BaseService;
 import com.thezp.dao.biz.user.entity.UserEntity;
+import com.thezp.dao.jooq.tables.records.AuthorRecord;
 import com.thezp.service.user.IUserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by zhangpeng on 2018/1/4.
  */
+@Slf4j
 @Service
 public class UserService extends BaseService<UserEntity> implements IUserService {
 
@@ -39,15 +38,13 @@ public class UserService extends BaseService<UserEntity> implements IUserService
 
     @Override
     public void getList() {
-        Result<Record> ret = dslContext.select().from(AUTHOR).fetch();
-
-        for (Record r : ret) {
-            Integer id = r.getValue(AUTHOR.ID);
-            String firstName = r.getValue(AUTHOR.FIRST_NAME);
-            String lastName = r.getValue(AUTHOR.LAST_NAME);
-
-            System.out
-                .println("ID: " + id + " first name: " + firstName + " last name: " + lastName);
-        }
+        /**
+         dslContext.select().from(AUTHOR).fetchInto(AuthorEntity.class).forEach(r -> log.info(
+         "ID: " + r.getId() + " first name: " + r.getFirstName() + " last name: " + r
+         .getLastName()));
+         **/
+        AuthorRecord ar = new AuthorRecord();
+        ar.setId(1);
+        System.out.println(dslContext.fetchByExample(ar));
     }
 }

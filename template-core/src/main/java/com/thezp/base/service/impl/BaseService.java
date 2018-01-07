@@ -16,4 +16,5 @@ public class BaseService<T extends BaseEntity> implements IBaseService<T> {
     public List<T> selectEntities(Map<String, Object> param) {
         return null;
     }
+
 }
