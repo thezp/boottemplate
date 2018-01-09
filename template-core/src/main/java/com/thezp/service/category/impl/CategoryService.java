@@ -1,8 +1,8 @@
 package com.thezp.service.category.impl;
 
-import com.thezp.base.entity.CategoryEntity;
 import com.thezp.base.service.IConvertService;
 import com.thezp.base.service.impl.BaseService;
+import com.thezp.dao.comm.category.entity.CategoryEntity;
 import com.thezp.service.category.ICategoryService;
 import java.util.HashMap;
 import java.util.Map;

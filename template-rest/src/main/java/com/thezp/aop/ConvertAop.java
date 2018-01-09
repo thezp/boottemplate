@@ -1,9 +1,9 @@
 package com.thezp.aop;
 
+import com.esotericsoftware.reflectasm.MethodAccess;
 import com.thezp.base.service.IConvertService;
 import com.thezp.util.ApplicationContextUtil;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +50,6 @@ public class ConvertAop {
 
     @Around("execService()")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-        log.info("ConvertAop start");
         doInit();
         // result的值就是被拦截方法的返回值
         Object result = pjp.proceed();
@@ -101,7 +100,7 @@ public class ConvertAop {
      * 转换实体
      * @param obj
      */
-    private void convertEntity(Object obj) throws Exception {
+    private void convertEntity(Object obj) {
         List<String> fnames = new ArrayList<>();
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field f : fields) {
@@ -124,12 +123,11 @@ public class ConvertAop {
      * @param obj
      * @param propName
      * @return
-     * @throws Exception
      */
-    private static Object getValue(Object obj, String propName) throws Exception {
-        Method m = obj.getClass()
-            .getMethod("get" + propName.substring(0, 1).toUpperCase() + propName.substring(1));
-        return m.invoke(obj);
+    private static Object getValue(Object obj, String propName) {
+        MethodAccess methodAccess = MethodAccess.get(obj.getClass());
+        return methodAccess
+            .invoke(obj, "get" + propName.substring(0, 1).toUpperCase() + propName.substring(1));
     }
 
     /**
@@ -137,15 +135,12 @@ public class ConvertAop {
      * @param obj
      * @param propName
      * @return
-     * @throws Exception
      */
-    private static void setValue(Object obj, String propName, Class<?> clazz, Object value)
-        throws Exception {
-        Method m = obj.getClass()
-            .getMethod("set" + propName.substring(0, 1).toUpperCase() + propName.substring(1),
-                clazz);
-        m.setAccessible(true);
-        m.invoke(obj, value);
+    private static void setValue(Object obj, String propName, Class<?> clazz, Object value) {
+        MethodAccess methodAccess = MethodAccess.get(obj.getClass());
+        methodAccess
+            .invoke(obj, "set" + propName.substring(0, 1).toUpperCase() + propName.substring(1),
+                value);
     }
 
 }
