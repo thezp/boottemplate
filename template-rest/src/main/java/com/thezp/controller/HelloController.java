@@ -38,4 +38,9 @@ public class HelloController {
     public void voidMethod() {
         System.out.println("hahhah");
     }
+
+    @GetMapping(path = "/testAop")
+    public List<UserEntity> selectList() {
+        return userService.fetchList();
+    }
 }

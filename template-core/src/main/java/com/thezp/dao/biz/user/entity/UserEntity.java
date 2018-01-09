@@ -21,4 +21,7 @@ public class UserEntity extends BaseEntity {
 
     private String currencyId;
 
+    private String testId;
+
+    private String testIdName;
 }

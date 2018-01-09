@@ -35,18 +35,30 @@ public class UserService extends BaseService<UserEntity> implements IUserService
         entity.setName("thezp");
         entity.setCategoryId("1");
         entity.setCurrencyId("1");
+        entity.setTestId("2");
         list.add(entity);
         return list;
     }
 
     @Override
     public void getList() {
-
         dsl.select().from(AUTHOR).fetchInto(AuthorEntity.class).forEach(r -> log.info(
             "ID: " + r.getId() + " first name: " + r.getFirstName() + " last name: " + r
                 .getLastName()));
         AuthorRecord ar = new AuthorRecord();
         ar.setId(1);
         System.out.println(dsl.fetchByExample(ar));
+    }
+
+    @Override
+    public List<UserEntity> fetchList() {
+        List<UserEntity> list = new ArrayList<>();
+        UserEntity entity = new UserEntity();
+        entity.setName("thezp");
+        entity.setCategoryId("1");
+        entity.setCurrencyId("1");
+        entity.setTestId("2");
+        list.add(entity);
+        return list;
     }
 }

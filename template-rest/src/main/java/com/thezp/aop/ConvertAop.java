@@ -1,13 +1,15 @@
 package com.thezp.aop;
 
-import com.thezp.util.VarsUtil;
-import com.thezp.util.VarsUtil.convertDirect;
+import com.thezp.base.service.IConvertService;
+import com.thezp.util.ApplicationContextUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,22 +17,41 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 转换aop
+ * 转换实现
  *
- * @author zhangpeng
+ * Created by zhangpeng on 2018/1/9.
  */
 @Slf4j
 @Aspect
 @Configuration
-public class ConverterAop {
+public class ConvertAop {
 
-    @Pointcut("execution(* com.thezp.controller.*Controller.*(..))")
-    public void excudeService() {
+    /**
+     * 是否初始化过
+     */
+    private boolean inited = false;
+
+    private Map<String, IConvertService> map = new HashMap<>();
+
+    @Pointcut("execution(* com.thezp.service..*Service.fetch*(..))")
+    public void execService() {
     }
 
-    @Around("excudeService()")
+    private void doInit() {
+        if (!inited) {
+            List<IConvertService> list = ApplicationContextUtil
+                .getServiceList(IConvertService.class);
+            if (CollectionUtils.isNotEmpty(list)) {
+                list.forEach(t -> map.put(t.propName(), t));
+            }
+            inited = true;
+        }
+    }
+
+    @Around("execService()")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-        log.info("ConverterAop start");
+        log.info("ConvertAop start");
+        doInit();
         // result的值就是被拦截方法的返回值
         Object result = pjp.proceed();
 
@@ -66,11 +87,11 @@ public class ConverterAop {
     private void convertMap(Map result) {
         for (Object o : result.keySet()) {
             String key = String.valueOf(o);
-            if (VarsUtil.containCateCode(key, convertDirect.Entity2Dto)) {
+            if (map.containsKey(key)) {
                 String nameStr = key + "Name";
                 if (result.containsKey(nameStr)) {
                     result
-                        .put(nameStr, VarsUtil.getNameByCode(key, String.valueOf(result.get(key))));
+                        .put(nameStr, map.get(key).getValueName(String.valueOf(result.get(key))));
                 }
             }
         }
@@ -88,11 +109,11 @@ public class ConverterAop {
         }
 
         for (String str : fnames) {
-            if (VarsUtil.containCateCode(str, convertDirect.Entity2Dto)) {
+            if (map.containsKey(str)) {
                 String nameStr = str + "Name";
                 if (fnames.contains(nameStr)) {
                     setValue(obj, nameStr, String.class,
-                        VarsUtil.getNameByCode(str, String.valueOf(getValue(obj, str))));
+                        map.get(str).getValueName(String.valueOf(getValue(obj, str))));
                 }
             }
         }
@@ -126,4 +147,5 @@ public class ConverterAop {
         m.setAccessible(true);
         m.invoke(obj, value);
     }
+
 }
