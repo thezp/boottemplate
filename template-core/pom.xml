@@ -14,6 +14,16 @@
   </parent>
 
   <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -84,24 +94,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>jooq</artifactId>
-      <version>${jooq.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>jooq-meta</artifactId>
-      <version>${jooq.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>jooq-codegen</artifactId>
-      <version>${jooq.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>${mysql.version}</version>
@@ -114,71 +106,16 @@
       <version>1.09</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatisplus-spring-boot-starter</artifactId>
+      <version>${mybatisplus-spring-boot-starter.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus</artifactId>
+      <version>${mybatisplus.version}</version>
+    </dependency>
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.jooq</groupId>
-        <artifactId>jooq-codegen-maven</artifactId>
-        <version>3.10.0</version>
-
-        <!-- The plugin should hook into the generate goal-->
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-
-        <!-- Manage the plugin's dependency. In this example, we'll use a PostgreSQL database -->
-        <dependencies>
-          <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.6</version>
-          </dependency>
-        </dependencies>
-
-        <configuration>
-
-          <!-- JDBC connection parameters -->
-          <jdbc>
-            <driver>com.mysql.cj.jdbc.Driver</driver>
-            <url>jdbc:mysql://localhost:3306/library</url>
-            <user>root</user>
-            <password>root</password>
-          </jdbc>
-
-          <!-- Generator parameters -->
-          <generator>
-            <database>
-              <name>org.jooq.util.mysql.MySQLDatabase</name>
-              <includes>.*</includes>
-              <excludes></excludes>
-              <!-- In case your database supports catalogs, e.g. SQL Server:
-              <inputCatalog>public</inputCatalog>
-                -->
-              <inputSchema>library</inputSchema>
-            </database>
-            <generate>
-              <!--生成dao和pojo-->
-              <daos>true</daos>
-              <pojos>true</pojos>
-              <!--把数据库时间类型映射到java 8时间类型-->
-              <javaTimeTypes>true</javaTimeTypes>
-              <!--<interfaces>true</interfaces>-->
-              <!--不在生成的代码中添加spring注释，比如@Repository-->
-              <springAnnotations>false</springAnnotations>
-            </generate>
-            <target>
-              <packageName>com.thezp.dao.jooq</packageName>
-              <directory>src/main/java</directory>
-            </target>
-          </generator>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

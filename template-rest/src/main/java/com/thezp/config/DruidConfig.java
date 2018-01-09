@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Created by zhangpeng on 2017/11/24.
  */
 @Component
-public class DruidConfiguration {
+public class DruidConfig {
 
     @Bean
     public ServletRegistrationBean DruidStatViewServlet() {

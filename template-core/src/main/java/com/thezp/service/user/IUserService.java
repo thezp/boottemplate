@@ -9,7 +9,5 @@ import java.util.List;
  */
 public interface IUserService extends IBaseService<UserEntity> {
 
-    void getList();
-
     List<UserEntity> fetchList();
 }

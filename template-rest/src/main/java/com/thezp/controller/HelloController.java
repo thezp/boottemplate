@@ -1,6 +1,11 @@
 package com.thezp.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.thezp.dao.biz.author.entity.AuthorPlusEntity;
 import com.thezp.dao.biz.user.entity.UserEntity;
+import com.thezp.enums.StatusEnum;
+import com.thezp.service.user.IUserPlusService;
 import com.thezp.service.user.IUserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +23,9 @@ public class HelloController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IUserPlusService userPlusService;
+
     @GetMapping(path = "/greeting")
     public String greeting() {
         return "world";
@@ -29,11 +37,6 @@ public class HelloController {
         return userService.selectEntities(null);
     }
 
-    @GetMapping(path = "/getList")
-    public void getList() {
-        userService.getList();
-    }
-
     @GetMapping(path = "/voidMethod")
     public void voidMethod() {
         System.out.println("hahhah");
@@ -42,5 +45,31 @@ public class HelloController {
     @GetMapping(path = "/testAop")
     public List<UserEntity> selectList() {
         return userService.fetchList();
+    }
+
+    /**
+     * 分页 PAGE
+     */
+    @GetMapping("/testPlus")
+    public Page<AuthorPlusEntity> testPlus() {
+        return userPlusService.selectPage(new Page<>(0, 10));
+    }
+
+    @GetMapping("/selectsql")
+    public Object getUserBySql() {
+        JSONObject result = new JSONObject();
+        result.put("records", userPlusService.selectListBySQL());
+        return result;
+    }
+
+    @GetMapping("/add")
+    public Object addUser() {
+        AuthorPlusEntity user = new AuthorPlusEntity();
+        user.setFirstName("e");
+        user.setLastName("f");
+        user.setStatus(StatusEnum.ACTIVATE);
+        JSONObject result = new JSONObject();
+        result.put("result", userPlusService.insert(user));
+        return result;
     }
 }

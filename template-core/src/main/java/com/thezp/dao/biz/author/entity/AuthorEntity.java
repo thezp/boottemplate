@@ -20,4 +20,9 @@ public class AuthorEntity extends BaseEntity {
      * 名
      */
     private String lastName;
+
+    /**
+     * 状态
+     */
+    private String status;
 }
