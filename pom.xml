@@ -17,6 +17,7 @@
         <mysql.version>6.0.6</mysql.version>
         <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
         <mybatisplus.version>2.1.8</mybatisplus.version>
+        <metrics.version>3.1.2</metrics.version>
     </properties>
 
     <parent>

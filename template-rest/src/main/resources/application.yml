@@ -3,6 +3,12 @@ spring:
     active: dev
   application:
     name: template
+  boot:
+    admin:
+      client:
+        prefer-ip: true # 解决windows下运行时无法识别主机名的问题
+      url: http://localhost:${server.port}${server.context-path} # 向服务端注册的地址
+      context-path: /sba
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
